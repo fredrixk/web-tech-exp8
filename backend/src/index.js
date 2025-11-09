@@ -1,0 +1,30 @@
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const dotenv = require('dotenv');
+
+dotenv.config();
+
+const authRoutes = require('./routes/auth');
+const courseRoutes = require('./routes/courses');
+const enrollRoutes = require('./routes/enroll');
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+app.use('/api/auth', authRoutes);
+app.use('/api/courses', courseRoutes);
+app.use('/api/enroll', enrollRoutes);
+
+const PORT = process.env.PORT || 4000;
+
+mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true})
+  .then(() => {
+    console.log('Connected to MongoDB');
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  })
+  .catch(err => {
+    console.error('Mongo connection error', err.message);
+    process.exit(1);
+  });
