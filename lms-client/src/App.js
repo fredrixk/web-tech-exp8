@@ -7,11 +7,17 @@ import Register from './pages/Register';
 
 export default function App() {
   return (
-    <div>
-      <nav style={{ padding: 10, borderBottom: '1px solid #ddd' }}>
-        <Link to="/">Courses</Link> | <Link to="/login">Login</Link> | <Link to="/register">Register</Link>
+    <div className="app">
+      <nav className="nav">
+        <div className="nav-inner">
+          <Link to="/">Courses</Link>
+          <span className="nav-sep">|</span>
+          <Link to="/login">Login</Link>
+          <span className="nav-sep">|</span>
+          <Link to="/register">Register</Link>
+        </div>
       </nav>
-      <main style={{ padding: 10 }}>
+      <main className="container">
         <Routes>
           <Route path="/" element={<Courses />} />
           <Route path="/courses/:id" element={<CourseDetail />} />

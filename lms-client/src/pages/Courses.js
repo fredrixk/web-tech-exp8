@@ -11,15 +11,17 @@ export default function Courses() {
   }, []);
 
   return (
-    <div>
+    <div className="courses-page">
       <h2>Courses</h2>
-      {courses.map(c => (
-        <div key={c._id} style={{ border: '1px solid #eee', padding: 10, marginBottom: 10 }}>
-          <h3><Link to={`/courses/${c._id}`}>{c.title}</Link></h3>
-          <p>{c.description}</p>
-          <small>Instructor: {c.instructor?.name}</small>
-        </div>
-      ))}
+      <div className="courses-list">
+        {courses.map(c => (
+          <div key={c._id} className="course-card">
+            <h3><Link to={`/courses/${c._id}`}>{c.title}</Link></h3>
+            <p>{c.description}</p>
+            <small>Instructor: {c.instructor?.name}</small>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

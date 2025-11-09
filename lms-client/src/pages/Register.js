@@ -19,21 +19,21 @@ export default function Register() {
   };
 
   return (
-    <form onSubmit={submit}>
+    <form className="form" onSubmit={submit}>
       <h2>Register</h2>
-      <div>
+      <div className="form-group">
         <label>Name</label>
         <input value={name} onChange={e => setName(e.target.value)} />
       </div>
-      <div>
+      <div className="form-group">
         <label>Email</label>
         <input value={email} onChange={e => setEmail(e.target.value)} />
       </div>
-      <div>
+      <div className="form-group">
         <label>Password</label>
         <input value={password} onChange={e => setPassword(e.target.value)} type="password" />
       </div>
-      <button type="submit">Register</button>
+      <button className="btn" type="submit">Register</button>
     </form>
   );
 }
