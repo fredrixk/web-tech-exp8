@@ -55,12 +55,25 @@ if (fs.existsSync(clientDist)) {
 
 const PORT = process.env.PORT || 4000;
 
-mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true})
-  .then(() => {
-    console.log('Connected to MongoDB');
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-  })
-  .catch(err => {
-    console.error('Mongo connection error', err.message);
-    process.exit(1);
-  });
+const startServer = () => {
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+};
+
+// Try to connect to MongoDB, but don't exit if it fails — this allows serving the frontend
+// build for QA/deploy even when the DB isn't available. API endpoints that require the DB
+// will still fail until a connection is established.
+if (process.env.MONGODB_URI) {
+  mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+      console.log('Connected to MongoDB');
+      startServer();
+    })
+    .catch(err => {
+      console.error('Mongo connection error', err.message);
+      console.warn('Starting server without DB connection — API routes that need the DB may fail.');
+      startServer();
+    });
+} else {
+  console.warn('No MONGODB_URI configured — starting server without DB connection.');
+  startServer();
+}
