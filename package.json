@@ -1,0 +1,15 @@
+{
+  "name": "web-tech-exp8",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "install-all": "cd frontend && npm install && cd ../backend && npm install",
+    "build-client": "cd frontend && npm run build",
+    "build": "npm run build-client",
+    "start": "node backend/src/index.js",
+    "dev": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm run dev\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}

@@ -35,11 +35,30 @@ Open the dev URL shown by vite.
 
 1. Push this repo to GitHub.
 2. Create a MongoDB Atlas cluster and a database user. Copy the connection string.
-3. On Render, create a new Web Service: connect to your GitHub repo and set the build/start commands for the backend:
-   - Build command: `npm install`
-   - Start command: `npm start`
-   - Set environment variables on Render: `MONGODB_URI`, `JWT_SECRET`, `PORT` (optional)
-4. For the frontend, create a separate Web Service (Static Site) or a Node service using `npm install` and `npm run build`, then serve `dist` (Vite builds to `dist`).
+3. Single web service option (recommended): deploy the entire repository as one web service that serves the API and the built frontend from the same origin.
+
+   - In Render or another host, set the repo to deploy from the `main` branch.
+   - Use these commands on Render (or in the service settings):
+
+     Build command:
+
+     ```powershell
+     npm install
+     npm run build
+     cd backend; npm install
+     ```
+
+     Start command:
+
+     ```powershell
+     npm start
+     ```
+
+   - Environment variables to set on the host: `MONGODB_URI`, `JWT_SECRET`, and `PORT` (optional).
+
+   The backend is configured to serve the frontend build from `frontend/dist` when present. The root `package.json` contains helper scripts (`install-all`, `build`, `start`) to make local and CI usage easier.
+
+4. If you prefer separate services: create a Render Web Service for the backend and a Static Site for the frontend as described earlier.
 
 ## Notes
 - This scaffold focuses on core concepts and is intentionally minimal. Add input validation, rate-limiting, better error handling, role checks, and tests before production.
