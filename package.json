@@ -1,0 +1,16 @@
+{
+  "name": "lms-full",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "install-server": "cd lms-server && npm install",
+    "install-client": "cd lms-client && npm install",
+    "build-client": "cd lms-client && npm run build",
+    "start": "cd lms-server && npm start",
+    "build": "npm run install-server && npm run install-client && npm run build-client",
+    "heroku-postbuild": "npm run build"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

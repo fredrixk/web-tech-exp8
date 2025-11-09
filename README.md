@@ -40,7 +40,7 @@ npm start
 2. Deploy as Web Service:
    - Create a new Web Service on Render
    - Connect your repository
-   - Set Root Directory: `lms-server`
+   - Set Root Directory: `.` (root of the repository)
    - Build Command: `npm install && npm run build`
    - Start Command: `npm start`
    - Add Environment Variables:
