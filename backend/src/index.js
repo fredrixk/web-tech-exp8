@@ -20,8 +20,29 @@ app.use('/api/auth', authRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/enroll', enrollRoutes);
 
-// Serve frontend build if it exists (enables single-web-service deployment)
+// Helpful fallback at root when frontend build is missing
+// This prevents a generic "Cannot GET /" and instructs the operator how to build the frontend.
 const clientDist = path.join(__dirname, '../../frontend/dist');
+app.get('/', (req, res) => {
+  if (fs.existsSync(clientDist)) {
+    return res.sendFile(path.join(clientDist, 'index.html'));
+  }
+  // Simple informative HTML while frontend isn't built
+  res.type('html').send(`
+    <html>
+      <head><title>Simple LMS</title></head>
+      <body style="font-family:system-ui,Segoe UI,Roboto,Arial;margin:2rem;">
+        <h1>Simple LMS API</h1>
+        <p>The backend API is running, but the frontend build was not found at <code>frontend/dist</code>.</p>
+        <p>To build the frontend locally, run (from the repository root):</p>
+        <pre style="background:#f4f4f4;padding:8px;border-radius:4px">npm run build</pre>
+        <p>Then restart the server. Alternatively, visit <code>/api/courses</code> to see the API.</p>
+      </body>
+    </html>
+  `);
+});
+
+// Serve frontend build if it exists (enables single-web-service deployment)
 if (fs.existsSync(clientDist)) {
   app.use(express.static(clientDist));
 
